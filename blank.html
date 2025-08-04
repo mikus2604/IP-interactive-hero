@@ -5,43 +5,49 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Interactive Hero Map</title>
 <style>
- html, body {
-   margin: 0;
-   padding: 0;
-   background: #000;
-   overflow: hidden;
-   font-family: sans-serif;
- }
- svg { display:block; width:100%; height:100%; }
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: #000;
+    overflow: hidden;
+    font-family: sans-serif;
+  }
+  svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
   .land {
     fill: none;
-    stroke: #44aaff;
+    stroke: #1e90ff;
     stroke-width: 0.5px;
-    opacity: 0.9;
+    opacity: 0.85;
   }
   .graticule {
     fill: none;
-    stroke: #44aaff;
+    stroke: #1e90ff;
     stroke-width: 0.3px;
-    opacity: 0.6;
+    opacity: 0.5;
   }
- .visitor {
-   fill: #fff;
-   opacity: 0.8;
- }
- .user-dot { fill: #fff; }
- .user-pulse {
-   fill: none;
-   stroke: #fff;
-   stroke-width: 1;
-   transform-origin: center;
-   transform-box: fill-box;
-   animation: pulse 3s ease-out infinite;
- }
- @keyframes pulse {
-   0% { transform: scale(0.2); opacity: 0.8; }
-   100% { transform: scale(3); opacity: 0; }
- }
+  .visitor {
+    fill: #fff;
+    opacity: 0.8;
+  }
+  .user-dot {
+    fill: #fff;
+  }
+  .user-pulse {
+    fill: none;
+    stroke: #fff;
+    stroke-width: 1;
+    transform-origin: center;
+    transform-box: fill-box;
+    animation: pulse 3s ease-out infinite;
+  }
+  @keyframes pulse {
+    0% { transform: scale(0.2); opacity: 0.8; }
+    100% { transform: scale(3); opacity: 0; }
+  }
 </style>
 </head>
 <body>
@@ -64,11 +70,12 @@
 
   const g = svg.append('g');
   const grat = g.append('path').datum(graticule).attr('class','graticule');
-  let land;
   const visitorsGroup = g.append('g').attr('class','visitors');
   const userGroup = g.append('g').attr('class','user');
 
+  let land;
   let userLocation = null;
+
   const visitorData = [
     {lat:40.7128, lon:-74.0060},
     {lat:34.0522, lon:-118.2437},
@@ -122,7 +129,8 @@
 
   function renderMap(){
     grat.attr('d', path);
-    if(land) land.attr('d', path);
+    if (land) land.attr('d', path);
+
     visitorDots.each(function(d){
       const p = projection([d.lon, d.lat]);
       d3.select(this)
@@ -130,6 +138,7 @@
         .attr('cy', p ? p[1] : null)
         .style('display', p ? null : 'none');
     });
+
     if(userLocation){
       const p = projection([userLocation.lon, userLocation.lat]);
       if(p){
